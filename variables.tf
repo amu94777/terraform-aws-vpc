@@ -8,13 +8,19 @@ variable "enable_dns_hostnames" {
 }
 variable "comman_tags" {
     type = map
-    default = {
-        project = "roboshop"
-        env = "dev"
-        Terraform = true
-    }
+    default ={}
 }
 variable "rvpc_tags" {
+    type = map
+    default = {}
+}
+variable "project_name" {
+    default = {}
+}
+variable "environment" {
+    default = {}
+}
+variable "gw_tags" {
     type = map
     default = {}
 }
