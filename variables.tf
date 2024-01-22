@@ -24,3 +24,34 @@ variable "gw_tags" {
     type = map
     default = {}
 }
+variable "public_subnets_cidr" {
+   type = list
+   validation {
+         condition = length(var.public_subnets_cidr) == 2
+         error_message = "pls provide two cidr numbers"
+}
+}
+variable "public_subnets_tags" {
+    default = {}
+}
+variable "private_subnets_cidr" {
+   type = list
+   validation {
+         condition = length(var.private_subnets_cidr) == 2
+         error_message = "pls provide two cidr numbers"
+}
+}
+variable "private_subnets_tags" {
+    default = {}
+}
+
+variable "database_subnets_cidr" {
+   type = list
+   validation {
+         condition = length(var.database_subnets_cidr) == 2
+         error_message = "pls provide two cidr numbers"
+}
+}
+variable "database_subnets_tags" {
+    default = {}
+}
