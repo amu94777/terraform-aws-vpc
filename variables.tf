@@ -67,3 +67,15 @@ variable "private_route_table_tags" {
 variable "database_route_table_tags" {
     default = {}
 }
+variable "is_peering_required" {
+    type = bool
+    default = false
+}
+variable "accepter_vpc_id" {
+    type = string
+    default = ""
+}
+variable "vpc_peering_tags" {
+    type = map
+    default = {}
+}
