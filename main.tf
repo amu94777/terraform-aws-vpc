@@ -1,7 +1,7 @@
-resource "aws_vpc" "rvpc" {
-  cidr_block = var.rvpc_cidr
+resource "aws_vpc" "vpc" {
+  cidr_block = var.vpc_cidr
   enable_dns_hostnames = var.enable_dns_hostnames
-  tags = merge(var.comman_tags,var.rvpc_tags,
+  tags = merge(var.comman_tags,var.vpc_tags,
           {
             Name = local.name
           }
@@ -9,7 +9,7 @@ resource "aws_vpc" "rvpc" {
 }
 ###### internet gate way ####
 resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.rvpc.id
+  vpc_id = aws_vpc.vpc.id
  tags = merge(var.comman_tags,var.gw_tags,
  {
     Name = local.name
@@ -19,7 +19,7 @@ resource "aws_internet_gateway" "igw" {
 ####### public subnet conf ####
 resource "aws_subnet" "public" {
   count = length(var.public_subnets_cidr)
-  vpc_id     = aws_vpc.rvpc.id
+  vpc_id     = aws_vpc.vpc.id
   cidr_block = var.public_subnets_cidr[count.index]
   availability_zone = local.az_names[count.index]
 
@@ -32,7 +32,7 @@ resource "aws_subnet" "public" {
 ####### private subnet conf ####
 resource "aws_subnet" "private" {
   count = length(var.private_subnets_cidr)
-  vpc_id     = aws_vpc.rvpc.id
+  vpc_id     = aws_vpc.vpc.id
   cidr_block = var.private_subnets_cidr[count.index]
   availability_zone = local.az_names[count.index]
 
@@ -45,7 +45,7 @@ resource "aws_subnet" "private" {
 ####### database subnet conf ####
 resource "aws_subnet" "database" {
   count = length(var.database_subnets_cidr)
-  vpc_id     = aws_vpc.rvpc.id
+  vpc_id     = aws_vpc.vpc.id
   cidr_block = var.database_subnets_cidr[count.index]
   availability_zone = local.az_names[count.index]
 
@@ -87,7 +87,7 @@ resource "aws_nat_gateway" "rnatgate" {
 }
 ###### public route table conf ######
 resource "aws_route_table" "public" {
-  vpc_id = aws_vpc.rvpc.id
+  vpc_id = aws_vpc.vpc.id
   tags = merge(var.comman_tags,var.public_route_table_tags,
          {
            Name = "${local.name}-public"
@@ -95,7 +95,7 @@ resource "aws_route_table" "public" {
   )
 }
 resource "aws_route_table" "private" {
-  vpc_id = aws_vpc.rvpc.id
+  vpc_id = aws_vpc.vpc.id
   tags = merge(var.comman_tags,var.private_route_table_tags,
          {
            Name = "${local.name}-private"
@@ -103,7 +103,7 @@ resource "aws_route_table" "private" {
   )
 }
 resource "aws_route_table" "database" {
-  vpc_id = aws_vpc.rvpc.id
+  vpc_id = aws_vpc.vpc.id
   tags = merge(var.comman_tags,var.database_route_table_tags,
          {
            Name = "${local.name}-database"
